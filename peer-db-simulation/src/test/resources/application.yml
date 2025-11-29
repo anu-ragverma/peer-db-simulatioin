@@ -1,0 +1,41 @@
+# src/test/resources/application.yml
+quarkus:
+  datasource:
+    source:
+      db-kind: h2
+      username: sa
+      password: 
+      jdbc:
+        url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    sink:
+        db-kind: h2
+        username: sa
+        password: 
+        jdbc:
+          url: jdbc:h2:mem:sinkdb;DB_CLOSE_DELAY=-1
+  
+  log:
+    level: INFO
+  
+  hibernate-orm:
+    database:
+      generation: drop-and-create
+  
+  replicator:
+    tables:
+      users:
+        source-query: "SELECT id, name, email FROM users WHERE id > ? ORDER BY id"
+        batch-size: 100
+        unique-key: "id"
+        order-by: "id"
+        virtual-threads: 2
+      orders:
+        source-query: "SELECT order_id, user_id, amount FROM orders WHERE order_id > ? ORDER BY order_id"
+        batch-size: 100
+        unique-key: "order_id"
+        order-by: "order_id"
+        virtual-threads: 2
+    
+    checkpoint-interval: 100
+    sync-batch-size: 100
+    max-overall-threads: 4
