@@ -31,19 +31,22 @@ quarkus:
   replicator:
     tables:
       users:
-        source-query: "SELECT id, name, email, created_at, updated_at FROM users WHERE updated_at > ? ORDER BY updated_at, id"
+        source-query: "SELECT id, name, email, created_at, updated_at FROM users "
+        # WHERE updated_at > ? ORDER BY updated_at, id"
         batch-size: 10000
         unique-key: "id"
         order-by: "updated_at, id"
         virtual-threads: 8
       orders:
-        source-query: "SELECT order_id, user_id, amount, status, created_at FROM orders WHERE created_at > ? ORDER BY created_at, order_id"
+        source-query: "SELECT order_id, user_id, amount, status, created_at FROM orders "
+        # WHERE created_at > ? ORDER BY created_at, order_id"
         batch-size: 15000
         unique-key: "order_id"
         order-by: "created_at, order_id"
         virtual-threads: 12
       products:
-        source-query: "SELECT product_id, name, price, category, last_modified FROM products WHERE last_modified > ? ORDER BY last_modified, product_id"
+        source-query: "SELECT product_id, name, price, category, last_modified FROM products "
+        # WHERE last_modified > ? ORDER BY last_modified, product_id"
         batch-size: 20000
         unique-key: "product_id"
         order-by: "last_modified, product_id"
